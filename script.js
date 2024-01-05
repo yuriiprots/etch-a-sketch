@@ -9,9 +9,9 @@ function createDivs(numberOfDivs) {
   for (let i = 0; i < numberOfDivs; i++) {
     const newDiv = document.createElement("div");
     newDiv.className = "div";
-    newDiv.innerHTML = "This is a new div!";
+    // newDiv.innerHTML = "This is a new div!";
     container.appendChild(newDiv);
   }
 }
 
-createDivs(5);
+createDivs(256);

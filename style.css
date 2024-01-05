@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  bottom: 0;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  padding: 20px;
+  text-align: center;
+}
+
+.title {
+  margin-bottom: 30px;
+}
+
+.container {
+  margin: 0 auto;
+  width: 1700px;
+  height: 1700px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+.div {
+  width: 100px;
+  height: 100px;
+  border: 1px solid red;
+}
