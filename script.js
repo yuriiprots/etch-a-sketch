@@ -1,6 +1,6 @@
-function createDivs(numberOfDivs) {
-  const container = document.getElementById("myContainer");
+const container = document.getElementById("myContainer");
 
+function createDivs(numberOfDivs) {
   if (!container) {
     console.log("Container not found");
     return;
