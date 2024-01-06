@@ -2,7 +2,7 @@ const container = document.getElementById("myContainer");
 let isMouseDown = false;
 
 function addColour() {
-  this.classList.add("color-effect");
+  this.classList.add("colour-effect");
 }
 
 function createDivs(numberOfDivs) {
@@ -16,7 +16,7 @@ function createDivs(numberOfDivs) {
     newDiv.className = "div";
     newDiv.addEventListener("click", addColour);
     newDiv.addEventListener("mousemove", function () {
-      if (isMouseDown) this.classList.add("color-effect");
+      if (isMouseDown) this.classList.add("colour-effect");
     });
     newDiv.addEventListener("dragstart", function (event) {
       event.preventDefault();
