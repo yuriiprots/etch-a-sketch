@@ -7,10 +7,34 @@
     <title>Etch-a-sketch</title>
   </head>
   <body>
-    <h1 class="title">Etch-a-sketch</h1>
-    <div class="container" id="myContainer">
-        
-    </div>
+    <header class="header">
+      <h1 class="title">Etch-a-sketch</h1>
+    </header>
+
+    <main class="main">
+      <section class="settings">
+        <input type="color" id="color-mode" name="color-mode" value="#333" />
+        <label for="color-mode"
+          ><button type="button">Color mode</button></label
+        >
+        <button type="button">Rainbow mode</button>
+        <button type="button">Eraser</button>
+        <button type="button">Clear</button>
+
+        <label for="grid-value">Grid value</label>
+        <input
+          type="range"
+          id="grid-value"
+          name="grid-value"
+          min="0"
+          max="64"
+        />
+      </section>
+      <section class="container" id="myContainer"></section>
+    </main>
+
+    <footer class="footer"></footer>
+
     <script src="./script.js"></script>
   </body>
 </html>
