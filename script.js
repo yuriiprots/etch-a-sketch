@@ -5,24 +5,31 @@ function addColour() {
   this.classList.add("colour-effect");
 }
 
-function createDivs(numberOfDivs) {
+function createGrid(numberOfColumn, numberOfDivsPerColumn) {
   if (!container) {
     console.log("Container not found");
     return;
   }
 
-  for (let i = 0; i < numberOfDivs; i++) {
-    const newDiv = document.createElement("div");
-    newDiv.className = "div";
-    newDiv.addEventListener("click", addColour);
-    newDiv.addEventListener("mousemove", function () {
-      if (isMouseDown) this.classList.add("colour-effect");
-    });
-    newDiv.addEventListener("dragstart", function (event) {
-      event.preventDefault();
-    });
+  for (let i = 0; i < numberOfColumn; i++) {
+    const newColumn = document.createElement("div");
+    newColumn.className = "column";
+    container.appendChild(newColumn);
 
-    container.appendChild(newDiv);
+    for (let j = 0; j < numberOfDivsPerColumn; j++) {
+      const newDiv = document.createElement("div");
+      newDiv.className = "div";
+
+      newDiv.addEventListener("click", addColour);
+      newDiv.addEventListener("mousemove", function () {
+        if (isMouseDown) this.classList.add("colour-effect");
+      });
+      newDiv.addEventListener("dragstart", function (event) {
+        event.preventDefault();
+      });
+
+      newColumn.appendChild(newDiv);
+    }
   }
 }
 
@@ -34,4 +41,5 @@ document.addEventListener("mouseup", function () {
   isMouseDown = false;
 });
 
-createDivs(256);
+createGrid(15, 15);
+
