@@ -17,18 +17,18 @@ function createGrid(numberOfColumn, numberOfDivsPerColumn) {
     container.appendChild(newColumn);
 
     for (let j = 0; j < numberOfDivsPerColumn; j++) {
-      const newDiv = document.createElement("div");
-      newDiv.className = "div";
+      const newCell = document.createElement("div");
+      newCell.className = "cell";
 
-      newDiv.addEventListener("click", addColour);
-      newDiv.addEventListener("mousemove", function () {
+      newCell.addEventListener("click", addColour);
+      newCell.addEventListener("mousemove", function () {
         if (isMouseDown) this.classList.add("colour-effect");
       });
-      newDiv.addEventListener("dragstart", function (event) {
+      newCell.addEventListener("dragstart", function (event) {
         event.preventDefault();
       });
 
-      newColumn.appendChild(newDiv);
+      newColumn.appendChild(newCell);
     }
   }
 }

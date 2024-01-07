@@ -22,20 +22,26 @@ body {
 
 .container {
   margin: 0 auto;
-  width: 1700px;
-  height: 1700px;
+  width: 1000px;
+  height: 1000px;
   display: flex;
-  flex-wrap: wrap;
-  align-content: flex-start;
+  border: 10px solid black;
 }
 
-.div {
-  width: 100px;
-  height: 100px;
+.column {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  /* border: 1px solid green; */
+}
+
+.cell {
+  width: 100%;
+  height: 100%;
   border: 1px solid red;
   cursor: pointer;
 }
 
-.colour-effect{
+.colour-effect {
   background-color: black;
 }
