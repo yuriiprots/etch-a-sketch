@@ -14,21 +14,20 @@
     <main class="main">
       <section class="settings">
         <input type="color" id="color-mode" name="color-mode" value="#333" />
-        <label for="color-mode"
-          ><button type="button">Color mode</button></label
-        >
+        <button type="button">Color mode</button>
         <button type="button">Rainbow mode</button>
         <button type="button">Eraser</button>
         <button type="button">Clear</button>
 
-        <label for="grid-value">Grid value</label>
+        <div class="size-value">16 х 16</div>
         <input
           type="range"
           id="grid-value"
           name="grid-value"
-          min="0"
+          min="1"
           max="64"
         />
+        
       </section>
       <section class="container" id="myContainer"></section>
     </main>
