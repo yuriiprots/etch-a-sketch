@@ -44,7 +44,7 @@ body {
 
 button {
   padding: 10px 20px;
-  border: 1px solid #333;
+  border: 2px solid #333;
   border-radius: 5px;
 }
 
@@ -53,6 +53,25 @@ input {
   width: 100%;
   font-size: 16px;
   cursor: pointer;
+}
+
+input[type="color"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 80px;
+  height: 80px;
+  background-color: transparent;
+  border: none;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border-radius: 50%;
+  border: none;
+}
+
+input[type="color"]::-moz-color-swatch {
+  border-radius: 50%;
+  border: none;
 }
 
 button.active {
@@ -64,6 +83,8 @@ button,
 input[type="color"] {
   transition: transform 0.1s ease-in-out;
 }
+
+
 
 button:hover,
 input[type="color"]:hover {
