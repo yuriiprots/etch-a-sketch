@@ -130,7 +130,7 @@ input[type="range"]::-webkit-slider-thumb {
   width: 500px;
   height: 500px;
   display: flex;
-  border: 10px solid black;
+  /* border: 10px solid black; */
   background-color: #fefefe;
 }
 
@@ -144,7 +144,7 @@ input[type="range"]::-webkit-slider-thumb {
 .cell {
   width: 100%;
   height: 100%;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   cursor: pointer;
 }
 
