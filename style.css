@@ -40,10 +40,11 @@ body {
   align-items: center;
   justify-content: center;
   gap: 30px;
+  width: 200px;
 }
 
 button {
-  padding: 10px 20px;
+  padding: 10px 0;
   border: 2px solid #333;
   border-radius: 5px;
 }
@@ -84,11 +85,44 @@ input[type="color"] {
   transition: transform 0.1s ease-in-out;
 }
 
-
-
 button:hover,
 input[type="color"]:hover {
   transform: scale(1.1);
+}
+
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: transparent;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  height: 10px;
+}
+
+input[type="range"]::-moz-range-track {
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 10px;
+  height: 10px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: #333;
+  margin-top: -8px;
+  height: 24px;
+  width: 24px;
+  border-radius: 50px;
+}
+
+.size-value {
+  font-size: 18px;
+  margin-bottom: -15px;
 }
 
 .container {
