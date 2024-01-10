@@ -2,7 +2,8 @@ const container = document.getElementById("myContainer");
 const sizeValue = document.getElementById("sizeValue");
 const sizeSlider = document.getElementById("sizeSlider");
 const cleanBtn = document.getElementById("cleanBtn");
-const columns = container.querySelectorAll(".column");
+
+// const colorDivs = container.querySelectorAll("div.colour-effect");
 
 let isMouseDown = false;
 
@@ -17,12 +18,29 @@ function addColour() {
   this.classList.add("colour-effect");
 }
 
+cleanBtn.addEventListener("click", removeColor);
+
+
+function removeColor() {
+  if (!container) {
+    console.log("Container not found");
+    return;
+  }
+  const columns = container.querySelectorAll(".column");
+  for (let i = 0; i < columns.length; i++) {
+    const colorDivs = columns[i].querySelectorAll(".colour-effect");
+    for (let j = 0; j < colorDivs.length; j++) {
+      colorDivs[j].classList.remove("colour-effect");
+    }
+  }
+}
+
 function createGrid(numberOfColumn, numberOfDivsPerColumn) {
   if (!container) {
     console.log("Container not found");
     return;
   }
-  cleanGrid();
+  removeGrid();
   for (let i = 0; i < numberOfColumn; i++) {
     const newColumn = document.createElement("div");
     newColumn.className = "column";
@@ -45,19 +63,12 @@ function createGrid(numberOfColumn, numberOfDivsPerColumn) {
   }
 }
 
-// function cleanColor(numberOfColumn, numberOfDivsPerColumn) {
-//   if (!container) {
-//     console.log("Container not found");
-//     return;
-//   }
-//   const columns = container.children;
-//   for (let i = 0; i < numberOfColumn; i++) {
-//     const column = columns[i];
-//     for (let j = 0; j < numberOfDivsPerColumn; j++) {
-//       if (column.children[j].classList.contains("colour-effect")) {
-//         const cell = column.children[j];
-//         cell.classList.remove("colour-effect");
-//       }
+// for (let i = 0; i < numberOfColumn; i++) {
+//   const column = columns[i];
+//   for (let j = 0; j < numberOfDivsPerColumn; j++) {
+//     if (column.children[j].classList.contains("colour-effect")) {
+//       const cell = column.children[j];
+//       cell.classList.remove("colour-effect");
 //     }
 //   }
 // }
@@ -75,7 +86,7 @@ function createGrid(numberOfColumn, numberOfDivsPerColumn) {
 //   }
 // }
 
-function cleanGrid() {
+function removeGrid() {
   while (container.firstChild) {
     container.removeChild(container.firstChild);
   }
@@ -91,9 +102,6 @@ function cleanGrid() {
 //       cell.classList.remove("colour-effect");
 //     }
 //   }
-
-cleanBtn.addEventListener("click", cleanColor(numberOfColumn, numberOfDivsPerColumn));
-
 
 document.addEventListener("mousedown", function () {
   isMouseDown = true;
