@@ -2,6 +2,8 @@ const container = document.getElementById("myContainer");
 const sizeValue = document.getElementById("sizeValue");
 const sizeSlider = document.getElementById("sizeSlider");
 const cleanBtn = document.getElementById("cleanBtn");
+const eraserBtn = document.getElementById("eraserBtn");
+const colorBtn = document.getElementById("colorBtn");
 
 // const colorDivs = container.querySelectorAll("div.colour-effect");
 
@@ -14,12 +16,24 @@ sizeSlider.addEventListener("input", function () {
   createGrid(this.value, this.value);
 });
 
+colorBtn.addEventListener("click", addColour);
+
 function addColour() {
   this.classList.add("colour-effect");
 }
 
-cleanBtn.addEventListener("click", removeColor);
+eraserBtn.addEventListener("click", function () {
+  colorBtn.removeEventListener("click", addColour);
+  eraserColour();
+});
 
+function eraserColour() {
+  if (this.classList.contains("colour-effect")) {
+    this.classList.remove("colour-effect");
+  }
+}
+
+cleanBtn.addEventListener("click", removeColor);
 
 function removeColor() {
   if (!container) {
@@ -51,15 +65,17 @@ function createGrid(numberOfColumn, numberOfDivsPerColumn) {
       newCell.className = "cell";
 
       newCell.addEventListener("click", addColour);
-      newCell.addEventListener("mousemove", function () {
-        if (isMouseDown) this.classList.add("colour-effect");
-      });
-      newCell.addEventListener("dragstart", function (event) {
-        event.preventDefault();
-      });
+      newCell.addEventListener("mousemove", addMoveMouse);
+      newCell.addEventListener("dragstart", removeDragStart);
 
       newColumn.appendChild(newCell);
     }
+  }
+}
+
+function removeGrid() {
+  while (container.firstChild) {
+    container.removeChild(container.firstChild);
   }
 }
 
@@ -86,12 +102,6 @@ function createGrid(numberOfColumn, numberOfDivsPerColumn) {
 //   }
 // }
 
-function removeGrid() {
-  while (container.firstChild) {
-    container.removeChild(container.firstChild);
-  }
-}
-
 // const columns = container.children;
 // for (let i = 0; i < numberOfColumn; i++) {
 //   const column = columns[i];
@@ -102,6 +112,14 @@ function removeGrid() {
 //       cell.classList.remove("colour-effect");
 //     }
 //   }
+
+function addMoveMouse() {
+  if (isMouseDown) this.classList.add("colour-effect");
+}
+
+function removeDragStart(event) {
+  event.preventDefault();
+}
 
 document.addEventListener("mousedown", function () {
   isMouseDown = true;
