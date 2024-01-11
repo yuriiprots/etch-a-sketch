@@ -16,22 +16,60 @@ sizeSlider.addEventListener("input", function () {
   createGrid(this.value, this.value);
 });
 
-colorBtn.addEventListener("click", addColour);
+colorBtn.addEventListener("click", colorMode);
+
+function colorMode() {
+  if (!container) {
+    console.log("Container not found");
+    return;
+  }
+  const columns = container.querySelectorAll(".column");
+  for (let i = 0; i < columns.length; i++) {
+    const cell = columns[i].querySelectorAll(".cell");
+    for (let j = 0; j < cell.length; j++) {
+      cell[j].addEventListener("click", addColour);
+      cell[j].addEventListener("mousemove", addMoveMouse);
+
+      cell[j].removeEventListener("click", eraser);
+      cell[j].removeEventListener("mousemove", addMoveMouseRemoveColor);
+    }
+  }
+}
 
 function addColour() {
   this.classList.add("colour-effect");
 }
 
-eraserBtn.addEventListener("click", function () {
-  colorBtn.removeEventListener("click", addColour);
-  eraserColour();
-});
+eraserBtn.addEventListener("click", eraserColour);
 
 function eraserColour() {
-  if (this.classList.contains("colour-effect")) {
-    this.classList.remove("colour-effect");
+  if (!container) {
+    console.log("Container not found");
+    return;
+  }
+  const columns = container.querySelectorAll(".column");
+  for (let i = 0; i < columns.length; i++) {
+    const cell = columns[i].querySelectorAll(".cell");
+    for (let j = 0; j < cell.length; j++) {
+      cell[j].removeEventListener("click", addColour);
+      cell[j].removeEventListener("mousemove", addMoveMouse);
+
+      cell[j].addEventListener("click", eraser);
+      cell[j].addEventListener("mousemove", addMoveMouseRemoveColor);
+    }
   }
 }
+
+function addMoveMouseRemoveColor() {
+  if (isMouseDown) this.classList.remove("colour-effect");
+}
+
+function eraser() {
+  this.classList.remove("colour-effect");
+}
+
+// if (this.classList.contains("colour-effect")) {
+//   this.classList.remove("colour-effect");
 
 cleanBtn.addEventListener("click", removeColor);
 
@@ -78,40 +116,6 @@ function removeGrid() {
     container.removeChild(container.firstChild);
   }
 }
-
-// for (let i = 0; i < numberOfColumn; i++) {
-//   const column = columns[i];
-//   for (let j = 0; j < numberOfDivsPerColumn; j++) {
-//     if (column.children[j].classList.contains("colour-effect")) {
-//       const cell = column.children[j];
-//       cell.classList.remove("colour-effect");
-//     }
-//   }
-// }
-
-// function cleanGrid(numberOfColumn) {
-//   if (!container) {
-//     console.log("Container not found");
-//     return;
-//   }
-//   // container.removeChild(columns[0]);
-
-//   while (numberOfColumn >= 0) {
-//     container.removeChild(columns[0]);
-//     numberOfColumn--;
-//   }
-// }
-
-// const columns = container.children;
-// for (let i = 0; i < numberOfColumn; i++) {
-//   const column = columns[i];
-
-//   for (let j = 0; j < numberOfDivsPerColumn; j++) {
-//     if (column.children[j].classList.contains("colour-effect")) {
-//       const cell = column.children[j];
-//       cell.classList.remove("colour-effect");
-//     }
-//   }
 
 function addMoveMouse() {
   if (isMouseDown) this.classList.add("colour-effect");

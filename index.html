@@ -13,21 +13,15 @@
 
     <main class="main">
       <section class="settings">
-        <input type="color" id="color-mode" />
+        <input type="color" id="colorPicker" />
 
-        <button type="button">Color mode</button>
-        <button type="button">Rainbow mode</button>
-        <button type="button">Eraser</button>
+        <button type="button" id="colorBtn">Color mode</button>
+        <button type="button" id="rainbowBtn">Rainbow mode</button>
+        <button type="button" id="eraserBtn">Eraser</button>
         <button type="button" id="cleanBtn">Clear</button>
 
         <div id="sizeValue" class="size-value">16 x 16</div>
-        <input
-          type="range"
-          id="sizeSlider"
-          min="1"
-          max="64"
-          value="16"
-        />
+        <input type="range" id="sizeSlider" min="1" max="64" value="16" />
       </section>
       <section class="container" id="myContainer"></section>
     </main>
