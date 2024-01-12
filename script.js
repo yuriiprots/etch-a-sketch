@@ -5,6 +5,7 @@ const cleanBtn = document.getElementById("cleanBtn");
 const eraserBtn = document.getElementById("eraserBtn");
 const colorBtn = document.getElementById("colorBtn");
 const colorPicker = document.getElementById("colorPicker");
+const buttons = document.querySelectorAll('button[type="button"]');
 
 let isMouseDown = false;
 
@@ -149,4 +150,13 @@ document.addEventListener("mousedown", function () {
 
 document.addEventListener("mouseup", function () {
   isMouseDown = false;
+});
+
+const handleButtonClick = (clickedButton) => {
+  buttons.forEach((button) => button.classList.remove(`active`));
+  clickedButton.classList.add("active");
+};
+
+buttons.forEach((button) => {
+  button.addEventListener("click", () => handleButtonClick(button));
 });
