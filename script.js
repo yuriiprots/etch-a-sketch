@@ -4,8 +4,7 @@ const sizeSlider = document.getElementById("sizeSlider");
 const cleanBtn = document.getElementById("cleanBtn");
 const eraserBtn = document.getElementById("eraserBtn");
 const colorBtn = document.getElementById("colorBtn");
-
-// const colorDivs = container.querySelectorAll("div.colour-effect");
+const colorPicker = document.getElementById("colorPicker");
 
 let isMouseDown = false;
 
@@ -23,6 +22,7 @@ function colorMode() {
     console.log("Container not found");
     return;
   }
+
   const columns = container.querySelectorAll(".column");
   for (let i = 0; i < columns.length; i++) {
     const cell = columns[i].querySelectorAll(".cell");
@@ -32,12 +32,30 @@ function colorMode() {
 
       cell[j].removeEventListener("click", eraser);
       cell[j].removeEventListener("mousemove", addMoveMouseRemoveColor);
+      changeColorEffect();
+      // cell[j].style.backgroundColor = colorPicker.value;
     }
   }
 }
 
+const colorEffects = document.querySelectorAll(".colour-effect");
+function changeColorEffect() {
+  if (colorEffects.length === 0) {
+    return;
+  }
+  // for (let i = 0; i < colorEffects.length; i++) {
+  //   colorEffects[i].style.backgroundColor = colorPicker.value;
+  // }
+  colorEffects.forEach((effect) => {
+    effect.style.backgroundColor = colorPicker.value;
+  });
+}
+
 function addColour() {
+  // this.classList.setAttribute("background-color", colorPicker.value);
+  // this.style.backgroundColor = colorPicker.value;
   this.classList.add("colour-effect");
+  // this.style.backgroundColor = colorPicker.value;
 }
 
 eraserBtn.addEventListener("click", eraserColour);
