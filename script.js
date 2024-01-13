@@ -6,6 +6,7 @@ const eraserBtn = document.getElementById("eraserBtn");
 const colorBtn = document.getElementById("colorBtn");
 const colorPicker = document.getElementById("colorPicker");
 const buttons = document.querySelectorAll('button[type="button"]');
+const rainbowBtn = document.getElementById("rainbowBtn");
 
 let isMouseDown = false;
 
@@ -17,6 +18,7 @@ sizeSlider.addEventListener("input", function () {
 });
 
 colorBtn.addEventListener("click", colorMode);
+rainbowBtn.addEventListener("click", rainbowMode);
 
 function colorMode() {
   if (!container) {
@@ -39,6 +41,47 @@ function colorMode() {
   }
 }
 
+function randomColor() {
+  const r = Math.floor(Math.random() * 255);
+  const g = Math.floor(Math.random() * 255);
+  const b = Math.floor(Math.random() * 255);
+
+  return `rgb(${r}, ${g}, ${b})`;
+}
+
+function rainbowMode() {
+  if (!container) {
+    console.log("Container not found");
+    return;
+  }
+
+  const columns = container.querySelectorAll(".column");
+  for (let i = 0; i < columns.length; i++) {
+    const cell = columns[i].querySelectorAll(".cell");
+    for (let j = 0; j < cell.length; j++) {
+      cell[j].addEventListener("click", addRandomColor);
+      cell[j].addEventListener("mousemove", addMoveMouseRandomColor);
+
+      cell[j].removeEventListener("click", addColour);
+      cell[j].removeEventListener("mousemove", addMoveMouse);
+      cell[j].removeEventListener("click", eraser);
+      cell[j].removeEventListener("mousemove", addMoveMouseRemoveColor);
+      // changeColorEffect();
+      // cell[j].style.backgroundColor = colorPicker.value;
+    }
+  }
+}
+
+function addRandomColor() {
+  this.style.backgroundColor = randomColor();
+}
+
+function addMoveMouseRandomColor() {
+  if (isMouseDown) {
+    this.style.backgroundColor = randomColor();
+  }
+}
+
 // const colorEffects = document.querySelectorAll(".colour-effect");
 // function changeColorEffect() {
 //   if (colorEffects.length === 0) {
@@ -55,6 +98,7 @@ function colorMode() {
 function addColour() {
   // this.classList.add("colour-effect");
   this.style.backgroundColor = colorPicker.value;
+  // this.style.backgroundColor = randomColor();
 }
 
 eraserBtn.addEventListener("click", eraserColour);
