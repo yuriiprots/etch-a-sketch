@@ -11,10 +11,19 @@ const rainbowBtn = document.getElementById("rainbowBtn");
 let isMouseDown = false;
 
 createGrid(16, 16);
+colorMode();
 
 sizeSlider.addEventListener("input", function () {
   sizeValue.textContent = `${this.value} x ${this.value}`;
   createGrid(this.value, this.value);
+  if (colorBtn.classList.contains("active"))
+  {
+    colorMode();  
+  };
+  if (rainbowBtn.classList.contains("active"))
+  {
+    rainbowMode();  
+  };
 });
 
 colorBtn.addEventListener("click", colorMode);
@@ -163,9 +172,8 @@ function createGrid(numberOfColumn, numberOfDivsPerColumn) {
     for (let j = 0; j < numberOfDivsPerColumn; j++) {
       const newCell = document.createElement("div");
       newCell.className = "cell";
-
-      newCell.addEventListener("click", addColour);
-      newCell.addEventListener("mousemove", addMoveMouse);
+      // newCell.addEventListener("click", addColour);
+      // newCell.addEventListener("mousemove", addMoveMouse);
       newCell.addEventListener("dragstart", removeDragStart);
 
       newColumn.appendChild(newCell);
