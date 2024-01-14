@@ -5,7 +5,7 @@ const cleanBtn = document.getElementById("cleanBtn");
 const eraserBtn = document.getElementById("eraserBtn");
 const colorBtn = document.getElementById("colorBtn");
 const colorPicker = document.getElementById("colorPicker");
-const buttons = document.querySelectorAll('button[type="button"]');
+const buttons = document.querySelectorAll("button");
 const rainbowBtn = document.getElementById("rainbowBtn");
 
 let isMouseDown = false;
@@ -16,14 +16,12 @@ colorMode();
 sizeSlider.addEventListener("input", function () {
   sizeValue.textContent = `${this.value} x ${this.value}`;
   createGrid(this.value, this.value);
-  if (colorBtn.classList.contains("active"))
-  {
-    colorMode();  
-  };
-  if (rainbowBtn.classList.contains("active"))
-  {
-    rainbowMode();  
-  };
+  if (colorBtn.classList.contains("active")) {
+    colorMode();
+  }
+  if (rainbowBtn.classList.contains("active")) {
+    rainbowMode();
+  }
 });
 
 colorBtn.addEventListener("click", colorMode);
@@ -43,6 +41,7 @@ function colorMode() {
       cell[j].addEventListener("mousemove", addMoveMouse);
 
       cell[j].removeEventListener("click", eraser);
+      cell[j].removeEventListener("click", addRandomColor);
       cell[j].removeEventListener("mousemove", addMoveMouseRemoveColor);
       // changeColorEffect();
       // cell[j].style.backgroundColor = colorPicker.value;
@@ -72,9 +71,10 @@ function rainbowMode() {
       cell[j].addEventListener("mousemove", addMoveMouseRandomColor);
 
       cell[j].removeEventListener("click", addColour);
-      cell[j].removeEventListener("mousemove", addMoveMouse);
       cell[j].removeEventListener("click", eraser);
-      cell[j].removeEventListener("mousemove", addMoveMouseRemoveColor);
+      cell[j].removeEventListener("mousemove", addMoveMouse);
+
+      // cell[j].removeEventListener("mousemove", addMoveMouseRemoveColor);
       // changeColorEffect();
       // cell[j].style.backgroundColor = colorPicker.value;
     }
@@ -86,8 +86,13 @@ function addRandomColor() {
 }
 
 function addMoveMouseRandomColor() {
-  if (isMouseDown) {
+  if (isMouseDown && !this.hasAttribute("cell-colored")) {
     this.style.backgroundColor = randomColor();
+    this.setAttribute("cell-colored", true);
+
+    this.addEventListener("mouseleave", function () {
+      this.removeAttribute("cell-colored");
+    });
   }
 }
 
