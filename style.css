@@ -17,11 +17,17 @@
   box-sizing: inherit;
 }
 
+html {
+  position: relative;
+  min-height: 100%;
+}
+
 body {
   background-color: var(--primary-light);
   color: var(--primary-dark);
   font-family: "Roboto", sans-serif;
   padding: 20px;
+  margin-bottom: 100px;
 }
 
 .header {
@@ -36,7 +42,7 @@ body {
 .main {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   gap: 100px;
   max-width: 1100px;
   margin: 0 auto;
@@ -134,7 +140,6 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .container {
-  margin: 0 auto;
   width: 500px;
   height: 500px;
   display: flex;
@@ -156,6 +161,27 @@ input[type="range"]::-webkit-slider-thumb {
   cursor: pointer;
   background-color: var(--secondary-light);
 }
-/* .footer{
-  
-} */
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  font-size: 20px;
+  padding-bottom: 10px;
+}
+
+.fa-github {
+  color: var(--primary-dark);
+  transition-property: transform;
+  transition-duration: 0.4s;
+  transition-timing-function: ease-in-out;
+}
+
+.fa-github:hover {
+  transform: rotate(360deg) scale(130%);
+}
