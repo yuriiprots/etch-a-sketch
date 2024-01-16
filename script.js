@@ -1,31 +1,48 @@
-const container = document.getElementById("myContainer");
+const colorPicker = document.getElementById("colorPicker");
+const colorBtn = document.getElementById("colorBtn");
+const rainbowBtn = document.getElementById("rainbowBtn");
+const eraserBtn = document.getElementById("eraserBtn");
+const cleanBtn = document.getElementById("cleanBtn");
 const sizeValue = document.getElementById("sizeValue");
 const sizeSlider = document.getElementById("sizeSlider");
-const cleanBtn = document.getElementById("cleanBtn");
-const eraserBtn = document.getElementById("eraserBtn");
-const colorBtn = document.getElementById("colorBtn");
-const colorPicker = document.getElementById("colorPicker");
 const buttons = document.querySelectorAll("button");
-const rainbowBtn = document.getElementById("rainbowBtn");
+const container = document.getElementById("myContainer");
 
 let isMouseDown = false;
 
-createGrid(16, 16);
-colorMode();
-
-sizeSlider.addEventListener("input", function () {
-  sizeValue.textContent = `${this.value} x ${this.value}`;
-  createGrid(this.value, this.value);
-  if (colorBtn.classList.contains("active")) {
-    colorMode();
-  }
-  if (rainbowBtn.classList.contains("active")) {
-    rainbowMode();
-  }
-});
-
 colorBtn.addEventListener("click", colorMode);
 rainbowBtn.addEventListener("click", rainbowMode);
+eraserBtn.addEventListener("click", eraserColour);
+cleanBtn.addEventListener("click", removeColor);
+sizeSlider.addEventListener("input", handleSizeSliderChange);
+
+startDefault();
+
+function startDefault() {
+  createGrid(16, 16);
+  colorMode();
+}
+
+
+function handleSizeSliderChange() {
+  const newSize = this.value;
+  updateSizeText(newSize);
+  createGrid(newSize, newSize);
+  if (isButtonActive(colorBtn)) {
+    colorMode();
+  }
+  if (isButtonActive(rainbowBtn)) {
+    rainbowMode();
+  }
+}
+
+function updateSizeText(size) {
+  sizeValue.textContent = `${size} x ${size}`;
+}
+
+function isButtonActive(button) {
+  return button.classList.contains("active");
+}
 
 function colorMode() {
   if (!container) {
@@ -35,19 +52,45 @@ function colorMode() {
 
   const columns = container.querySelectorAll(".column");
   for (let i = 0; i < columns.length; i++) {
-    const cell = columns[i].querySelectorAll(".cell");
-    for (let j = 0; j < cell.length; j++) {
-      cell[j].addEventListener("click", addColour);
-      cell[j].addEventListener("mousemove", addMoveMouse);
+    const cells = columns[i].querySelectorAll(".cell");
+    for (let j = 0; j < cells.length; j++) {
+      cells[j].addEventListener("click", addColour);
+      cells[j].addEventListener("mousemove", addMoveMouse);
 
-      cell[j].removeEventListener("click", eraser);
-      cell[j].removeEventListener("click", addRandomColor);
-      cell[j].removeEventListener("mousemove", addMoveMouseRemoveColor);
-      // changeColorEffect();
-      // cell[j].style.backgroundColor = colorPicker.value;
+      cells[j].removeEventListener("click", eraser);
+      cells[j].removeEventListener("click", addRandomColor);
+      cells[j].removeEventListener("mousemove", addMoveMouseRemoveColor);
     }
   }
 }
+
+function addColour() {
+  this.style.backgroundColor = colorPicker.value;
+}
+
+function addMoveMouse() {
+  if (isMouseDown) this.style.backgroundColor = colorPicker.value;
+}
+
+function eraser() {
+  this.style.backgroundColor = "white";
+}
+
+function addRandomColor() {
+  this.style.backgroundColor = randomColor();
+}
+
+function addMoveMouseRandomColor() {
+  if (isMouseDown && !this.hasAttribute("cell-colored")) {
+    this.style.backgroundColor = randomColor();
+    this.setAttribute("cell-colored", true);
+
+    this.addEventListener("mouseleave", function () {
+      this.removeAttribute("cell-colored");
+    });
+  }
+}
+
 
 function randomColor() {
   const r = Math.floor(Math.random() * 255);
@@ -73,49 +116,13 @@ function rainbowMode() {
       cell[j].removeEventListener("click", addColour);
       cell[j].removeEventListener("click", eraser);
       cell[j].removeEventListener("mousemove", addMoveMouse);
-
-      // cell[j].removeEventListener("mousemove", addMoveMouseRemoveColor);
-      // changeColorEffect();
-      // cell[j].style.backgroundColor = colorPicker.value;
     }
   }
 }
 
-function addRandomColor() {
-  this.style.backgroundColor = randomColor();
-}
 
-function addMoveMouseRandomColor() {
-  if (isMouseDown && !this.hasAttribute("cell-colored")) {
-    this.style.backgroundColor = randomColor();
-    this.setAttribute("cell-colored", true);
 
-    this.addEventListener("mouseleave", function () {
-      this.removeAttribute("cell-colored");
-    });
-  }
-}
 
-// const colorEffects = document.querySelectorAll(".colour-effect");
-// function changeColorEffect() {
-//   if (colorEffects.length === 0) {
-//     return;
-//   }
-//   for (let i = 0; i < colorEffects.length; i++) {
-//     colorEffects[i].style.backgroundColor = colorPicker.value;
-//   }
-//   colorEffects.forEach((effect) => {
-//     effect.style.backgroundColor = colorPicker.value;
-//   });
-// }
-
-function addColour() {
-  // this.classList.add("colour-effect");
-  this.style.backgroundColor = colorPicker.value;
-  // this.style.backgroundColor = randomColor();
-}
-
-eraserBtn.addEventListener("click", eraserColour);
 
 function eraserColour() {
   if (!container) {
@@ -137,17 +144,9 @@ function eraserColour() {
 
 function addMoveMouseRemoveColor() {
   if (isMouseDown) this.style.backgroundColor = "white";
-  //this.classList.remove("colour-effect");
 }
 
-function eraser() {
-  this.style.backgroundColor = "white";
-}
 
-// if (this.classList.contains("colour-effect")) {
-//   this.classList.remove("colour-effect");
-
-cleanBtn.addEventListener("click", removeColor);
 
 function removeColor() {
   if (!container) {
@@ -190,12 +189,6 @@ function removeGrid() {
   while (container.firstChild) {
     container.removeChild(container.firstChild);
   }
-}
-
-function addMoveMouse() {
-  if (isMouseDown) this.style.backgroundColor = colorPicker.value;
-
-  //this.classList.add("colour-effect");
 }
 
 function removeDragStart(event) {
