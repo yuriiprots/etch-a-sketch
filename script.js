@@ -149,12 +149,13 @@ function cleanGrid() {
     return;
   }
   const columns = container.querySelectorAll(".column");
-  for (let i = 0; i < columns.length; i++) {
-    const cells = columns[i].querySelectorAll(".cell");
-    for (let j = 0; j < cells.length; j++) {
-      cells[j].style.backgroundColor = "white";
-    }
-  }
+  columns.forEach((column) => {
+    const cells = column.querySelectorAll(".cell");
+
+    cells.forEach((cell) => {
+      cell.style.backgroundColor = "white";
+    });
+  });
 }
 
 function createGrid(numberOfColumn, numberOfDivsPerColumn) {
