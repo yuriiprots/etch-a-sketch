@@ -120,16 +120,19 @@ function eraserMode() {
     return;
   }
   const columns = container.querySelectorAll(".column");
-  for (let i = 0; i < columns.length; i++) {
-    const cell = columns[i].querySelectorAll(".cell");
-    for (let j = 0; j < cell.length; j++) {
-      cell[j].removeEventListener("click", handleSingleColor);
-      cell[j].removeEventListener("mousemove", handleMouseMoveSingleColor);
+  columns.forEach((column) => {
+    const cells = column.querySelectorAll(".cell");
 
-      cell[j].addEventListener("click", handleEraser);
-      cell[j].addEventListener("mousemove", handleMoveMouseEraser);
-    }
-  }
+    cells.forEach((cell) => {
+      cell.addEventListener("click", handleEraser);
+      cell.addEventListener("mousemove", handleMoveMouseEraser);
+
+      cell.removeEventListener("click", handleSingleColor);
+      cell.removeEventListener("mousemove", handleMouseMoveSingleColor);
+      cell.removeEventListener("click", handleRandomColor);
+      cell.removeEventListener("mousemove", handleMoveMouseRandomColor);
+    });
+  });
 }
 
 function handleEraser() {
@@ -168,10 +171,7 @@ function createGrid(numberOfColumn, numberOfDivsPerColumn) {
     for (let j = 0; j < numberOfDivsPerColumn; j++) {
       const newCell = document.createElement("div");
       newCell.className = "cell";
-      // newCell.addEventListener("click", handleCellClick);
-      // newCell.addEventListener("mousemove", handleMouseMoveSingleColor);
       newCell.addEventListener("dragstart", removeDragStart);
-
       newColumn.appendChild(newCell);
     }
   }
