@@ -23,7 +23,6 @@ function startDefault() {
   colorMode();
 }
 
-
 function handleSizeSliderChange() {
   const newSize = this.value;
   updateSizeText(newSize);
@@ -49,38 +48,42 @@ function colorMode() {
     console.log("Container not found");
     return;
   }
-
   const columns = container.querySelectorAll(".column");
-  for (let i = 0; i < columns.length; i++) {
-    const cells = columns[i].querySelectorAll(".cell");
-    for (let j = 0; j < cells.length; j++) {
-      cells[j].addEventListener("click", addColour);
-      cells[j].addEventListener("mousemove", addMoveMouse);
+  columns.forEach((column) => {
+    const cells = column.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+      cell.addEventListener("click", handleSingleColor);
+      cell.addEventListener("mousemove", handleMouseMoveSingleColor);
 
-      cells[j].removeEventListener("click", eraser);
-      cells[j].removeEventListener("click", addRandomColor);
-      cells[j].removeEventListener("mousemove", addMoveMouseRemoveColor);
-    }
-  }
+      cell.removeEventListener("click", handleEraser);
+      cell.removeEventListener("mousemove", handleMoveMouseEraser);
+      cell.removeEventListener("click", handleRandomColor);
+      cell.removeEventListener("mousemove", handleMoveMouseRandomColor);
+    });
+  });
 }
 
-function addColour() {
+function handleSingleColor() {
   this.style.backgroundColor = colorPicker.value;
 }
 
-function addMoveMouse() {
+function handleMouseMoveSingleColor() {
   if (isMouseDown) this.style.backgroundColor = colorPicker.value;
 }
 
-function eraser() {
+function handleEraser() {
   this.style.backgroundColor = "white";
 }
 
-function addRandomColor() {
+function handleMoveMouseEraser() {
+  if (isMouseDown) this.style.backgroundColor = "white";
+}
+
+function handleRandomColor() {
   this.style.backgroundColor = randomColor();
 }
 
-function addMoveMouseRandomColor() {
+function handleMoveMouseRandomColor() {
   if (isMouseDown && !this.hasAttribute("cell-colored")) {
     this.style.backgroundColor = randomColor();
     this.setAttribute("cell-colored", true);
@@ -90,7 +93,6 @@ function addMoveMouseRandomColor() {
     });
   }
 }
-
 
 function randomColor() {
   const r = Math.floor(Math.random() * 255);
@@ -110,19 +112,16 @@ function rainbowMode() {
   for (let i = 0; i < columns.length; i++) {
     const cell = columns[i].querySelectorAll(".cell");
     for (let j = 0; j < cell.length; j++) {
-      cell[j].addEventListener("click", addRandomColor);
-      cell[j].addEventListener("mousemove", addMoveMouseRandomColor);
+      cell[j].addEventListener("click", handleRandomColor);
+      cell[j].addEventListener("mousemove", handleMoveMouseRandomColor);
 
-      cell[j].removeEventListener("click", addColour);
-      cell[j].removeEventListener("click", eraser);
-      cell[j].removeEventListener("mousemove", addMoveMouse);
+      cell[j].removeEventListener("click", handleSingleColor);
+      cell[j].removeEventListener("mousemove", handleMouseMoveSingleColor);
+      cell[j].removeEventListener("click", handleEraser);
+      cell[j].removeEventListener("mousemove", handleMoveMouseEraser);
     }
   }
 }
-
-
-
-
 
 function eraserColour() {
   if (!container) {
@@ -133,20 +132,14 @@ function eraserColour() {
   for (let i = 0; i < columns.length; i++) {
     const cell = columns[i].querySelectorAll(".cell");
     for (let j = 0; j < cell.length; j++) {
-      cell[j].removeEventListener("click", addColour);
-      cell[j].removeEventListener("mousemove", addMoveMouse);
+      cell[j].removeEventListener("click", handleSingleColor);
+      cell[j].removeEventListener("mousemove", handleMouseMoveSingleColor);
 
-      cell[j].addEventListener("click", eraser);
-      cell[j].addEventListener("mousemove", addMoveMouseRemoveColor);
+      cell[j].addEventListener("click", handleEraser);
+      cell[j].addEventListener("mousemove", handleMoveMouseEraser);
     }
   }
 }
-
-function addMoveMouseRemoveColor() {
-  if (isMouseDown) this.style.backgroundColor = "white";
-}
-
-
 
 function removeColor() {
   if (!container) {
@@ -176,8 +169,8 @@ function createGrid(numberOfColumn, numberOfDivsPerColumn) {
     for (let j = 0; j < numberOfDivsPerColumn; j++) {
       const newCell = document.createElement("div");
       newCell.className = "cell";
-      // newCell.addEventListener("click", addColour);
-      // newCell.addEventListener("mousemove", addMoveMouse);
+      // newCell.addEventListener("click", handleCellClick);
+      // newCell.addEventListener("mousemove", handleMouseMoveSingleColor);
       newCell.addEventListener("dragstart", removeDragStart);
 
       newColumn.appendChild(newCell);
