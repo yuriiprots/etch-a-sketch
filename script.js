@@ -12,8 +12,8 @@ let isMouseDown = false;
 
 colorBtn.addEventListener("click", colorMode);
 rainbowBtn.addEventListener("click", rainbowMode);
-eraserBtn.addEventListener("click", eraserColour);
-cleanBtn.addEventListener("click", removeColor);
+eraserBtn.addEventListener("click", eraserMode);
+cleanBtn.addEventListener("click", cleanGrid);
 sizeSlider.addEventListener("input", handleSizeSliderChange);
 
 startDefault();
@@ -71,12 +71,24 @@ function handleMouseMoveSingleColor() {
   if (isMouseDown) this.style.backgroundColor = colorPicker.value;
 }
 
-function handleEraser() {
-  this.style.backgroundColor = "white";
-}
+function rainbowMode() {
+  if (!container) {
+    console.log("Container not found");
+    return;
+  }
+  const columns = container.querySelectorAll(".column");
+  columns.forEach((column) => {
+    const cells = column.querySelectorAll(".cell");
+    cells.forEach((cell) => {
+      cell.addEventListener("click", handleRandomColor);
+      cell.addEventListener("mousemove", handleMoveMouseRandomColor);
 
-function handleMoveMouseEraser() {
-  if (isMouseDown) this.style.backgroundColor = "white";
+      cell.removeEventListener("click", handleSingleColor);
+      cell.removeEventListener("mousemove", handleMouseMoveSingleColor);
+      cell.removeEventListener("click", handleEraser);
+      cell.removeEventListener("mousemove", handleMoveMouseEraser);
+    });
+  });
 }
 
 function handleRandomColor() {
@@ -102,28 +114,7 @@ function randomColor() {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-function rainbowMode() {
-  if (!container) {
-    console.log("Container not found");
-    return;
-  }
-
-  const columns = container.querySelectorAll(".column");
-  for (let i = 0; i < columns.length; i++) {
-    const cell = columns[i].querySelectorAll(".cell");
-    for (let j = 0; j < cell.length; j++) {
-      cell[j].addEventListener("click", handleRandomColor);
-      cell[j].addEventListener("mousemove", handleMoveMouseRandomColor);
-
-      cell[j].removeEventListener("click", handleSingleColor);
-      cell[j].removeEventListener("mousemove", handleMouseMoveSingleColor);
-      cell[j].removeEventListener("click", handleEraser);
-      cell[j].removeEventListener("mousemove", handleMoveMouseEraser);
-    }
-  }
-}
-
-function eraserColour() {
+function eraserMode() {
   if (!container) {
     console.log("Container not found");
     return;
@@ -141,7 +132,15 @@ function eraserColour() {
   }
 }
 
-function removeColor() {
+function handleEraser() {
+  this.style.backgroundColor = "white";
+}
+
+function handleMoveMouseEraser() {
+  if (isMouseDown) this.style.backgroundColor = "white";
+}
+
+function cleanGrid() {
   if (!container) {
     console.log("Container not found");
     return;
