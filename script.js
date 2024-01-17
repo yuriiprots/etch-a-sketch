@@ -206,12 +206,20 @@ document.addEventListener("mouseup", function () {
   isMouseDown = false;
 });
 
-const handleButtonClick = (clickedButton) => {
+function handleButtonClick(clickedButton) {
   if (clickedButton.id !== "cleanBtn") {
-    buttons.forEach((button) => button.classList.remove(`active`));
-    clickedButton.classList.add("active");
+    deactiveAllButtons();
+    activateButton(clickedButton);
   }
-};
+}
+
+function deactiveAllButtons() {
+  buttons.forEach((button) => button.classList.remove(`active`));
+}
+
+function activateButton(button) {
+  button.classList.add("active");
+}
 
 buttons.forEach((button) => {
   button.addEventListener("click", () => handleButtonClick(button));
