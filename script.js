@@ -8,8 +8,6 @@ const sizeSlider = document.getElementById("sizeSlider");
 const buttons = document.querySelectorAll("button");
 const container = document.getElementById("myContainer");
 
-let isMouseDown = false;
-
 colorBtn.addEventListener("click", colorMode);
 rainbowBtn.addEventListener("click", rainbowMode);
 eraserBtn.addEventListener("click", eraserMode);
@@ -197,6 +195,8 @@ function removeGrid() {
 function handleDragStart(event) {
   event.preventDefault();
 }
+
+let isMouseDown = false;
 
 document.addEventListener("mousedown", function () {
   isMouseDown = true;
