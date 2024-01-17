@@ -165,17 +165,27 @@ function createGrid(numberOfColumn, numberOfDivsPerColumn) {
   }
   removeGrid();
   for (let i = 0; i < numberOfColumn; i++) {
-    const newColumn = document.createElement("div");
-    newColumn.className = "column";
+    const newColumn = createColumn();
     container.appendChild(newColumn);
 
     for (let j = 0; j < numberOfDivsPerColumn; j++) {
-      const newCell = document.createElement("div");
-      newCell.className = "cell";
-      newCell.addEventListener("dragstart", removeDragStart);
+      const newCell = createCell();
       newColumn.appendChild(newCell);
     }
   }
+}
+
+function createColumn() {
+  const newColumn = document.createElement("div");
+  newColumn.className = "column";
+  return newColumn;
+}
+
+function createCell() {
+  const newCell = document.createElement("div");
+  newCell.className = "cell";
+  newCell.addEventListener("dragstart", handleDragStart);
+  return newCell;
 }
 
 function removeGrid() {
@@ -184,7 +194,7 @@ function removeGrid() {
   }
 }
 
-function removeDragStart(event) {
+function handleDragStart(event) {
   event.preventDefault();
 }
 
