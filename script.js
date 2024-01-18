@@ -8,27 +8,19 @@ const sizeSlider = document.getElementById("sizeSlider");
 const buttons = document.querySelectorAll("button");
 const container = document.getElementById("myContainer");
 
-colorBtn.addEventListener("click", colorMode);
-rainbowBtn.addEventListener("click", rainbowMode);
-eraserBtn.addEventListener("click", eraserMode);
 cleanBtn.addEventListener("click", cleanGrid);
 sizeSlider.addEventListener("input", handleSizeSliderChange);
 
 (function startDefault() {
   createGrid(16, 16);
-  colorMode();
+  addMode();
 })();
 
 function handleSizeSliderChange() {
   const newSize = this.value;
   updateSizeText(newSize);
   createGrid(newSize, newSize);
-  if (isButtonActive(colorBtn)) {
-    colorMode();
-  }
-  if (isButtonActive(rainbowBtn)) {
-    rainbowMode();
-  }
+  addMode();
 }
 
 function updateSizeText(size) {
@@ -39,24 +31,51 @@ function isButtonActive(button) {
   return button.classList.contains("active");
 }
 
-function colorMode() {
+function addEventListenersToCells(cells, handle, handleMouseMove) {
+  cells.forEach((cell) => {
+    cell.addEventListener("click", handle);
+    cell.addEventListener("mousemove", handleMouseMove);
+  });
+}
+
+function removeEventListenersToCells(cells) {
+  cells.forEach((cell) => {
+    cell.removeEventListener("click", handleSingleColor);
+    cell.removeEventListener("mousemove", handleMouseMoveSingleColor);
+    cell.removeEventListener("click", handleEraser);
+    cell.removeEventListener("mousemove", handleMoveMouseEraser);
+    cell.removeEventListener("click", handleRandomColor);
+    cell.removeEventListener("mousemove", handleMoveMouseRandomColor);
+  });
+}
+
+function addMode() {
   if (!container) {
     console.log("Container not found");
     return;
   }
-  const columns = container.querySelectorAll(".column");
-  columns.forEach((column) => {
-    const cells = column.querySelectorAll(".cell");
-    cells.forEach((cell) => {
-      cell.addEventListener("click", handleSingleColor);
-      cell.addEventListener("mousemove", handleMouseMoveSingleColor);
 
-      cell.removeEventListener("click", handleEraser);
-      cell.removeEventListener("mousemove", handleMoveMouseEraser);
-      cell.removeEventListener("click", handleRandomColor);
-      cell.removeEventListener("mousemove", handleMoveMouseRandomColor);
-    });
-  });
+  const cells = container.querySelectorAll(".cell");
+
+  removeEventListenersToCells(cells);
+
+  if (isButtonActive(colorBtn)) {
+    addEventListenersToCells(
+      cells,
+      handleSingleColor,
+      handleMouseMoveSingleColor
+    );
+  }
+  if (isButtonActive(rainbowBtn)) {
+    addEventListenersToCells(
+      cells,
+      handleRandomColor,
+      handleMoveMouseRandomColor
+    );
+  }
+  if (isButtonActive(eraserBtn)) {
+    addEventListenersToCells(cells, handleEraser, handleMoveMouseEraser);
+  }
 }
 
 function handleSingleColor() {
@@ -65,26 +84,6 @@ function handleSingleColor() {
 
 function handleMouseMoveSingleColor() {
   if (isMouseDown) this.style.backgroundColor = colorPicker.value;
-}
-
-function rainbowMode() {
-  if (!container) {
-    console.log("Container not found");
-    return;
-  }
-  const columns = container.querySelectorAll(".column");
-  columns.forEach((column) => {
-    const cells = column.querySelectorAll(".cell");
-    cells.forEach((cell) => {
-      cell.addEventListener("click", handleRandomColor);
-      cell.addEventListener("mousemove", handleMoveMouseRandomColor);
-
-      cell.removeEventListener("click", handleSingleColor);
-      cell.removeEventListener("mousemove", handleMouseMoveSingleColor);
-      cell.removeEventListener("click", handleEraser);
-      cell.removeEventListener("mousemove", handleMoveMouseEraser);
-    });
-  });
 }
 
 function handleRandomColor() {
@@ -110,26 +109,6 @@ function randomColor() {
   return `rgb(${r}, ${g}, ${b})`;
 }
 
-function eraserMode() {
-  if (!container) {
-    console.log("Container not found");
-    return;
-  }
-  const columns = container.querySelectorAll(".column");
-  columns.forEach((column) => {
-    const cells = column.querySelectorAll(".cell");
-
-    cells.forEach((cell) => {
-      cell.addEventListener("click", handleEraser);
-      cell.addEventListener("mousemove", handleMoveMouseEraser);
-
-      cell.removeEventListener("click", handleSingleColor);
-      cell.removeEventListener("mousemove", handleMouseMoveSingleColor);
-      cell.removeEventListener("click", handleRandomColor);
-      cell.removeEventListener("mousemove", handleMoveMouseRandomColor);
-    });
-  });
-}
 
 function handleEraser() {
   this.style.backgroundColor = "white";
@@ -208,6 +187,7 @@ function handleButtonClick(clickedButton) {
   if (clickedButton.id !== "cleanBtn") {
     deactiveAllButtons();
     activateButton(clickedButton);
+    addMode();
   }
 }
 
