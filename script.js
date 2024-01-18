@@ -14,12 +14,10 @@ eraserBtn.addEventListener("click", eraserMode);
 cleanBtn.addEventListener("click", cleanGrid);
 sizeSlider.addEventListener("input", handleSizeSliderChange);
 
-startDefault();
-
-function startDefault() {
+(function startDefault() {
   createGrid(16, 16);
   colorMode();
-}
+})();
 
 function handleSizeSliderChange() {
   const newSize = this.value;
