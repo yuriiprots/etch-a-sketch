@@ -95,7 +95,7 @@ function handleMoveMouseRandomColor() {
     this.style.backgroundColor = randomColor();
     this.setAttribute("cell-colored", true);
 
-    this.addEventListener("mouseleave", function () {
+    this.addEventListener("mouseleave", () => {
       this.removeAttribute("cell-colored");
     });
   }
@@ -108,7 +108,6 @@ function randomColor() {
 
   return `rgb(${r}, ${g}, ${b})`;
 }
-
 
 function handleEraser() {
   this.style.backgroundColor = "white";
@@ -175,11 +174,11 @@ function handleDragStart(event) {
 
 let isMouseDown = false;
 
-document.addEventListener("mousedown", function () {
+document.addEventListener("mousedown", () => {
   isMouseDown = true;
 });
 
-document.addEventListener("mouseup", function () {
+document.addEventListener("mouseup", () =>{
   isMouseDown = false;
 });
 
